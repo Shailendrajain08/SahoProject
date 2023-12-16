@@ -1,0 +1,158 @@
+----------------------------- App HTMl Demo -------------------------------------------
+
+<!-- <button class="btn btn-primary">Click</button>
+
+<i class="fa fa-address-book"></i> -->
+
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem>
+    <button ngbNavLink>First</button>
+    <ng-template ngbNavContent>First content</ng-template>
+  </li>
+  <li ngbNavItem>
+    <button ngbNavLink>Second</button>
+    <ng-template ngbNavContent>Second content</ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
+
+<p>You need a width on the immediate child element for the animation to work correctly.</p>
+<p>
+	<button
+		type="button"
+		class="btn btn-outline-primary"
+		(click)="collapse.toggle()"
+		[attr.aria-expanded]="!isCollapsed"
+		aria-controls="collapseExample"
+	>
+		Toggle
+	</button>
+</p>
+<div style="min-height: 100px">
+	<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" [horizontal]="true" style="max-width: 300px">
+		<div class="card" style="width: 300px">
+			<div class="card-body">You can collapse horizontally this card by clicking Toggle</div>
+		</div>
+	</div>
+</div>
+
+hello
+
+<ul ngbNav #nav="ngbNav"  class="nav-tabs">
+  <li ngbNavItem > <app-feather-icon icon="circle"></app-feather-icon>
+    <button ngbNavLink>First</button>
+    <ng-template ngbNavContent>First content</ng-template>
+  </li>
+  <li ngbNavItem>
+    <button ngbNavLink>Second</button>
+    <ng-template ngbNavContent>Second content</ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
+
+<app-feather-icon icon="align-center"></app-feather-icon><br>
+
+<button class="btn btn-primary" ><app-feather-icon icon="send" ></app-feather-icon></button>
+
+
+------------------------------------- App TS Demo ------------------------------------------
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2'
+
+
+isCollapsed = false;
+
+  constructor(private toastr : ToastrService){
+
+  }
+
+  ngOnInit(){
+    this.toastr.info("you have one less attempt....!")
+    this.toastr.warning("wrong attempt, try again....!")
+    this.toastr.error("Opssss, somthing went wrong....!", "Shailendra ")
+    this.toastr.success("You are great....!")
+
+    // Swal.fire('Hello world!')
+
+    // Swal.fire({
+    //   title: "Do you want to save the changes?",
+    //   showDenyButton: true,
+    //   showCancelButton: true,
+    //   confirmButtonText: "Save",
+    //   denyButtonText: `Don't save`
+    // }).then((result) => {
+    //   /* Read more about isConfirmed, isDenied below */
+    //   if (result.isConfirmed) {
+    //     Swal.fire("Saved!", "", "success");
+    //   } else if (result.isDenied) {
+    //     Swal.fire("Changes are not saved", "", "info");
+    //   }
+    // });
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+
+  }
+
+
+-------------------------------------- App Module Demo ---------------------------------------
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { ToastrModule } from 'ngx-toastr';
+import { FeatherIconComponent } from './feather-icon/feather-icon.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    FeatherIconComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+------------------------------------ Feather Component HTML ----------------------------------
+
+<i [attr.data-feather]="featherIcon"></i>
+
+
+------------------------------------ Feather Component HTML ----------------------------------
+
+import { Component, Input } from '@angular/core';
+import * as feather from 'feather-icons';
+
+
+  @Input('icon') featherIcon: any;
+
+    ngAfterViewInit(){
+      feather.replace();
+    }
+
